@@ -1,0 +1,22 @@
+---
+kind: pipeline
+name: nodejs
+
+steps:
+  - name: test
+    image: node:12-alpine
+    commands:
+      - cd js
+      - npm install
+      - npm test
+
+---
+kind: pipeline
+name: clojure
+
+steps:
+  - name: test
+    image: clojure
+    commands:
+      - cd clj
+      - lein test
