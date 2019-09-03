@@ -1,1 +1,1 @@
-Js.log("Hello, BuckleScript and Reason!");
+Js.log(Assert.toBeTrue(~message="Must be true", true))
