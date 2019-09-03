@@ -7,7 +7,7 @@ steps:
     image: node:12-alpine
     commands:
       - cd js
-      - npm install
+      - npm ci
       - npm test
 
 ---
