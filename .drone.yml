@@ -12,6 +12,19 @@ steps:
 
 ---
 kind: pipeline
+name: reasonml
+
+steps:
+  - name: test
+    image: node:12
+    commands:
+      - cd re
+      - yarn install
+      - yarn build
+      - yarn test
+
+---
+kind: pipeline
 name: clojure
 
 steps:
