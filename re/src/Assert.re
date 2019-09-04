@@ -1,2 +1,2 @@
-[@bs.module "assert"] external toBeTrue : bool => (~message: string) => unit = "assert";
-[@bs.module "assert"] external deepEqual : bool => (~message: string) => unit = "deepStrictEqual";
+[@bs.module "assert"] [@bs.scope "strict"] external ok : 'a => (~message: string=?) => unit => unit = "ok";
+[@bs.module "assert"] [@bs.scope "strict"] external deepEqual : 'a => 'b => (~message: string=?) => unit => unit = "deepStrictEqual";
