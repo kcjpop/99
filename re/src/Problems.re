@@ -88,6 +88,21 @@ Problem_4.test();
 /*
  5 : Reverse a list :
  */
+module Problem_5 = {
+  let rec rev =
+    fun
+    | [] => []
+    | [hd, ...rest] => rev(rest) @ [hd];
+
+  let test = () => {
+    deepEqual(rev([]), [], ());
+    deepEqual(rev([1]), [1], ());
+    deepEqual(rev([1, 2]), [2, 1], ());
+    deepEqual(rev([1, 2, 3]), [3, 2, 1], ());
+    deepEqual(rev(["a", "b", "c"]), ["c", "b", "a"], ());
+  };
+};
+Problem_5.test();
 
 /*
  6 : Find out whether a list is a palindrome : A palindrome can be read forward or backward; e.g : (x a m a x) :
