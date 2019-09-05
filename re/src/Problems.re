@@ -107,6 +107,25 @@ Problem_5.test();
 /*
  6 : Find out whether a list is a palindrome : A palindrome can be read forward or backward; e.g : (x a m a x) :
  */
+module Problem_6 = {
+  let rec eq = (xs, ys) => {
+    switch (xs, ys) {
+    | (_, [])
+    | ([], _) => false
+    | ([x, ...tx], [y, ...ty]) => x === y ? eq(tx, ty) : false
+    };
+  }
+
+  let palindrome = (xs) => eq(Problem_5.rev(xs), xs)
+
+  let test = () => {
+    deepEqual(palindrome([]), true, ());
+    deepEqual(palindrome([1, 2, 3, 2, 1]), true, ());
+    deepEqual(palindrome(["a", "b", "a"]), true, ());
+    deepEqual(palindrome(["a", "b"]), false, ());
+  }
+};
+Problem_6.test();
 
 /*
  7 : Flatten a nested list structure
