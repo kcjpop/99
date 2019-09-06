@@ -110,20 +110,26 @@ Problem_5.test();
 module Problem_6 = {
   let rec eq = (xs, ys) => {
     switch (xs, ys) {
+    | ([], []) => true
     | (_, [])
     | ([], _) => false
     | ([x, ...tx], [y, ...ty]) => x === y ? eq(tx, ty) : false
     };
-  }
+  };
 
-  let palindrome = (xs) => eq(Problem_5.rev(xs), xs)
+  let palindrome = xs => eq(Problem_5.rev(xs), xs);
 
   let test = () => {
-    deepEqual(palindrome([]), true, ());
+    deepEqual(
+      ~message="empty lists should be a palindrome of themselves",
+      palindrome([]),
+      true,
+      (),
+    );
     deepEqual(palindrome([1, 2, 3, 2, 1]), true, ());
     deepEqual(palindrome(["a", "b", "a"]), true, ());
     deepEqual(palindrome(["a", "b"]), false, ());
-  }
+  };
 };
 Problem_6.test();
 
