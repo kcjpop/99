@@ -44,7 +44,7 @@ module Problem_2 = {
 Problem_2.test();
 
 /*
- 3 : Find the K'th element of a list : The first element in the list is number 1 :
+ 3 : Find the K'th element of a list : The first element in the list is number 1
  */
 module Problem_3 = {
   let rec at = (n, l) => {
@@ -105,10 +105,11 @@ module Problem_5 = {
 Problem_5.test();
 
 /*
- 6 : Find out whether a list is a palindrome : A palindrome can be read forward or backward; e.g : (x a m a x) :
+ 6 : Find out whether a list is a palindrome
+ A palindrome can be read forward or backward; e.g : (x a m a x)
  */
 module Problem_6 = {
-  let palindrome = xs => xs == Problem_5.rev(xs);
+  let palindrome = xs => xs == List.rev(xs);
 
   let test = () => {
     deepEqual(
@@ -139,7 +140,7 @@ module Problem_7 = {
       | [One(x), ...rest] => aux([x, ...acc], rest)
       | [Many(xs), ...rest] => aux(aux(acc, xs), rest);
 
-    Problem_5.rev(aux([], xs));
+    List.rev(aux([], xs));
   };
 
   let test = () => {
@@ -188,23 +189,74 @@ module Problem_8 = {
 Problem_8.test();
 
 /*
- 9 : Pack consecutive duplicates of list elements into sublists : If a list contains repeated elements they should be placed in separate sublists :
+ 9 : Pack consecutive duplicates of list elements into sublists
+ If a list contains repeated elements they should be placed in separate sublists
+ */
+module Problem_9 = {
+  let pack = xs => {
+    let rec aux = (cur, acc) =>
+      fun
+      | [] => acc
+      | [x] => [[x, ...cur], ...acc]
+      | [fst, snd, ...rest] =>
+        fst == snd
+          ? aux([fst, ...cur], acc, [snd, ...rest])
+          : aux([], [[fst, ...cur], ...acc], [snd, ...rest]);
+
+    List.rev(aux([], [], xs));
+  };
+
+  let test = () => {
+    deepEqual(pack([1, 1, 1, 2, 3, 3]), [[1, 1, 1], [2], [3, 3]], ());
+    deepEqual(pack([1, 1, 1]), [[1, 1, 1]], ());
+  };
+};
+Problem_9.test();
+
+/*
+ 10 : Run-length encoding of a list
+ Use the result of problem P09 to implement the so-called run-length encoding
+ data compression method : Consecutive duplicates of elements are encoded as
+ lists (N E) where N is the number of duplicates of the element E
+ */
+module Problem_10 = {
+  let encode = xs => {
+    let rec map = f =>
+      fun
+      | [] => []
+      | [x, ...xs] => [f(x), ...map(f, xs)];
+
+    let encoder = xs => (List.length(xs), List.hd(xs));
+
+    List.rev(map(encoder, Problem_9.pack(xs)));
+  };
+
+  let test = () => {
+    deepEqual(encode([1, 1, 1, 2, 3, 3]), [(3, 1), (1, 2), (2, 3)], ());
+    deepEqual(encode([]), [], ());
+    deepEqual(encode([1]), [(1, 1)], ());
+  };
+};
+
+/*
+ 11 : Modified run-length encoding
+ Modify the result of problem 10 in such a way that if an element has no
+ duplicates it is simply copied into the result list
+ Only elements with duplicates are transferred as (N E) lists
  */
 
 /*
- 10 : Run-length encoding of a list : Use the result of problem P09 to implement the so-called run-length encoding data compression method : Consecutive duplicates of elements are encoded as lists (N E) where N is the number of duplicates of the element E :
+ 12 : Decode a run-length encoded list
+ Given a run-length code list generated as specified in problem 11
+ Construct its uncompressed version
  */
 
 /*
- 11 : Modified run-length encoding : Modify the result of problem 10 in such a way that if an element has no duplicates it is simply copied into the result list : Only elements with duplicates are transferred as (N E) lists :
- */
-
-/*
- 12 : Decode a run-length encoded list : Given a run-length code list generated as specified in problem 11 : Construct its uncompressed version :
- */
-
-/*
- 13 : Run-length encoding of a list (direct solution) : Implement the so-called run-length encoding data compression method directly : I.e : don't explicitly create the sublists containing the duplicates, as in problem 9, but only count them : As in problem P11, simplify the result list by replacing the singleton lists (1 X) by X :
+ 13 : Run-length encoding of a list (direct solution)
+ Implement the so-called run-length encoding data compression method directly
+ I.e : don't explicitly create the sublists containing the duplicates, as in
+ problem 9, but only count them : As in problem P11, simplify the result list
+ by replacing the singleton lists (1 X) by X
  */
 
 /*
