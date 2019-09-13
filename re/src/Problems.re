@@ -108,16 +108,7 @@ Problem_5.test();
  6 : Find out whether a list is a palindrome : A palindrome can be read forward or backward; e.g : (x a m a x) :
  */
 module Problem_6 = {
-  let rec eq = (xs, ys) => {
-    switch (xs, ys) {
-    | ([], []) => true
-    | (_, [])
-    | ([], _) => false
-    | ([x, ...tx], [y, ...ty]) => x === y ? eq(tx, ty) : false
-    };
-  };
-
-  let palindrome = xs => eq(Problem_5.rev(xs), xs);
+  let palindrome = xs => xs == Problem_5.rev(xs);
 
   let test = () => {
     deepEqual(
@@ -136,10 +127,65 @@ Problem_6.test();
 /*
  7 : Flatten a nested list structure
  */
+module Problem_7 = {
+  type node('a) =
+    | One('a)
+    | Many(list(node('a)));
+
+  let flatten = xs => {
+    let rec aux = acc =>
+      fun
+      | [] => acc
+      | [One(x), ...rest] => aux([x, ...acc], rest)
+      | [Many(xs), ...rest] => aux(aux(acc, xs), rest);
+
+    Problem_5.rev(aux([], xs));
+  };
+
+  let test = () => {
+    deepEqual(
+      flatten([One(1), One(2), Many([One(3), One(4)]), One(5)]),
+      [1, 2, 3, 4, 5],
+      (),
+    );
+    deepEqual(
+      flatten([
+        One(1),
+        One(2),
+        Many([
+          One(3),
+          Many([One(40), One(41), Many([One(42)])]),
+          One(5),
+        ]),
+        One(6),
+      ]),
+      [1, 2, 3, 40, 41, 42, 5, 6],
+      (),
+    );
+  };
+};
+Problem_7.test();
 
 /*
  8 : Eliminate consecutive duplicates of list elements :
  */
+module Problem_8 = {
+  let rec compress =
+    fun
+    | [] => []
+    | [x] => [x]
+    | [fs, sc, ...rest] =>
+      fs == sc ? compress([fs, ...rest]) : [fs] @ compress([sc, ...rest]);
+
+  let test = () => {
+    deepEqual(compress([1, 2, 3, 2, 1]), [1, 2, 3, 2, 1], ());
+    deepEqual(compress([1, 1, 2, 2, 2, 1]), [1, 2, 1], ());
+    deepEqual(compress([1, 1, 1, 1]), [1], ());
+    deepEqual(compress([1]), [1], ());
+    deepEqual(compress([]), [], ());
+  };
+};
+Problem_8.test();
 
 /*
  9 : Pack consecutive duplicates of list elements into sublists : If a list contains repeated elements they should be placed in separate sublists :
