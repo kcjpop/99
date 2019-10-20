@@ -33,3 +33,15 @@ steps:
     commands:
       - cd clj
       - lein test
+
+---
+kind: pipeline
+name: v
+
+steps:
+  - name: test
+    image: kcjpop/vlang
+    commands:
+      - cd v
+      - v --version
+      - v -g test main
