@@ -1,0 +1,13 @@
+(lang dune 3.4)
+
+(generate_opam_files true)
+
+(package
+ (name hello)
+ (synopsis "A hello world example")
+ (description "Hello, World!")
+ (depends
+  (alcotest :with-test)
+  (ocaml
+   (>= 4.14.1))
+  dune))
